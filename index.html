@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Shamanth G P, Software Engineer in Test working on NetApp storage automation.">
+<title>Shamanth G P</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: left-aligned editorial column; hero pairs a statement with a test-report panel; sections read like a release log. */
+:root {
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --ink: #131c2e;
+  --muted: #56617a;
+  --line: #d9dee8;
+  --accent: #2346c9;
+  --accent-soft: #e4e9fb;
+  --pass: #1d7a4c;
+  --pass-soft: #dcf1e5;
+  --led: #e08a1e;
+  --chip: #eef1f6;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1422; --surface: #161e30; --ink: #e7ebf3; --muted: #9aa5bd; --line: #26314a;
+    --accent: #8ea6ff; --accent-soft: #1e2a4d; --pass: #5fd396; --pass-soft: #163527;
+    --led: #f2a13d; --chip: #1c2539; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1422; --surface: #161e30; --ink: #e7ebf3; --muted: #9aa5bd; --line: #26314a;
+  --accent: #8ea6ff; --accent-soft: #1e2a4d; --pass: #5fd396; --pass-soft: #163527;
+  --led: #f2a13d; --chip: #1c2539; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+  margin: 0; padding-inline: 16px;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1040px; margin-inline: auto; }
+
+/* Nav */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  margin-inline: -16px; padding-inline: 16px;
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.brand { font-family: var(--font-display); font-weight: 750; font-stretch: 115%; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+.nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; flex-wrap: wrap; }
+.nav ul a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+.nav ul a:hover { color: var(--ink); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: center; padding-block: 72px 56px; }
+.hero > * { min-width: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; display: flex; align-items: center; gap: 10px; }
+.led { width: 8px; height: 8px; border-radius: 50%; background: var(--led); box-shadow: 0 0 0 3px color-mix(in srgb, var(--led) 25%, transparent); animation: blink 2.4s ease-in-out infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+h1 {
+  font-family: var(--font-display); font-weight: 800; font-stretch: 112%;
+  font-size: clamp(2.4rem, 5.6vw, 4rem); line-height: 1.02; letter-spacing: -0.025em;
+  margin: 0 0 22px; text-wrap: balance;
+}
+h1 em { font-style: normal; color: var(--accent); }
+.lede { font-size: 1.15rem; color: var(--muted); max-width: 34em; margin: 0 0 28px; }
+.lede strong { color: var(--ink); font-weight: 600; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 8px;
+  font: 600 0.98rem var(--font-body); text-decoration: none; border: 1px solid var(--line); cursor: pointer;
+  background: var(--surface); color: var(--ink); transition: border-color .15s, transform .15s;
+}
+.btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+.btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+/* Test report panel */
+.report {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  font-family: var(--font-mono); font-size: 0.85rem; overflow: hidden;
+  box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--ink) 35%, transparent);
+}
+.report-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.report-head span { color: var(--muted); }
+.pill { background: var(--pass-soft); color: var(--pass); padding: 3px 10px; border-radius: 999px; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.04em; }
+.report ol { list-style: none; margin: 0; padding: 6px 0; }
+.report li { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: baseline; padding: 12px 18px; }
+.report li + li { border-top: 1px dashed var(--line); }
+.tick { color: var(--pass); font-weight: 600; }
+.report .label { color: var(--ink); font-family: var(--font-body); font-size: 0.98rem; }
+.report .label small { display: block; color: var(--muted); font-size: 0.85rem; }
+.report .num { font-family: var(--font-display); font-weight: 800; font-stretch: 110%; font-size: 1.7rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.report-foot { padding: 12px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.75rem; }
+
+/* Sections */
+section { padding-block: 56px; border-top: 1px solid var(--line); }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+h2 { font-family: var(--font-display); font-weight: 750; font-stretch: 110%; font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: -0.015em; margin: 0; }
+.sec-head p { margin: 0; color: var(--muted); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.04em; }
+h3 { font-family: var(--font-display); font-weight: 700; font-stretch: 105%; font-size: 1.2rem; margin: 0; letter-spacing: -0.005em; }
+
+/* Experience */
+.job { display: grid; grid-template-columns: 220px 1fr; gap: 40px; }
+.job > * { min-width: 0; }
+.job-meta { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); display: grid; gap: 6px; align-content: start; }
+.job-meta .dates { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.job h3 { font-size: 1.45rem; }
+.job .org { color: var(--muted); margin: 4px 0 22px; }
+.duties { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.duties li { display: grid; grid-template-columns: 170px 1fr; gap: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.duties li:last-child { border-bottom: 0; padding-bottom: 0; }
+.duties b { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); padding-top: 4px; }
+
+/* Projects */
+.projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.project { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.project .kicker { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.project p { margin: 0; color: var(--muted); flex: 1; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.tags li { font-family: var(--font-mono); font-size: 0.75rem; background: var(--chip); color: var(--ink); padding: 3px 9px; border-radius: 5px; }
+
+.repos { margin-top: 40px; }
+.repos h3 { margin-bottom: 14px; }
+.repo-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.repo-list li { display: grid; grid-template-columns: 230px 1fr auto; gap: 20px; padding: 16px 20px; align-items: baseline; }
+.repo-list li + li { border-top: 1px solid var(--line); }
+.repo-list a { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+.repo-list a:hover { text-decoration: underline; }
+.repo-list span { color: var(--muted); }
+.repo-list .lang { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 48px; }
+.skills > div { min-width: 0; }
+.skills h3 { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 12px; }
+.skills .tags li { font-size: 0.85rem; padding: 5px 11px; }
+.edu { margin-top: 40px; padding: 20px 24px; background: var(--accent-soft); border-radius: var(--radius); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: baseline; }
+.edu p { margin: 0; }
+.edu .yrs { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Contact */
+.contact { padding-block: 72px 88px; }
+.contact h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); max-width: 18em; text-wrap: balance; margin-bottom: 26px; }
+.email-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 26px; }
+.email { font-family: var(--font-mono); font-size: 1.1rem; background: var(--surface); border: 1px solid var(--line); padding: 10px 16px; border-radius: 8px; user-select: all; overflow-wrap: anywhere; }
+.links { display: flex; gap: 22px; flex-wrap: wrap; font-weight: 600; }
+.copied { font-family: var(--font-mono); font-size: 0.8rem; color: var(--pass); }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 36px; padding-block: 48px 40px; }
+  .job { grid-template-columns: 1fr; gap: 16px; }
+  .job-meta { grid-template-columns: repeat(auto-fit, minmax(140px, auto)); }
+  .projects { grid-template-columns: 1fr; }
+  .skills { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .duties li { grid-template-columns: 1fr; gap: 4px; }
+  .repo-list li { grid-template-columns: 1fr; gap: 4px; }
+  .nav ul { gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+
+<nav class="nav" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top">Shamanth G P</a>
+    <ul>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+  <header class="hero">
+    <div>
+      <p class="eyebrow"><span class="led" aria-hidden="true"></span>Software Engineer in Test · Bengaluru</p>
+      <h1>I make storage platforms <em>prove they work.</em></h1>
+      <p class="lede">Software Engineer in Test at <strong>Mindteck</strong>, where I worked on NetApp's <strong>ONTAP</strong> ecosystem. Over three years I built Python and PyTest automation frameworks for enterprise storage platforms, hunted root causes in logs and core dumps, triaged defects, and kept large regression suites stable and fast.</p>
+      <div class="cta">
+        <a class="btn primary" href="#contact">Get in touch</a>
+        <a class="btn" href="https://github.com/shamanthgp" target="_blank" rel="noopener">See my GitHub</a>
+      </div>
+    </div>
+
+    <aside class="report" aria-label="Test run summary">
+      <div class="report-head">
+        <span>test_run_summary.log</span>
+        <span class="pill">READY FOR SIGN-OFF</span>
+      </div>
+      <ol>
+        <li><span class="tick">PASS</span><span class="label">Automation scripts run<small>Across 4+ NetApp environments</small></span><span class="num">1000+</span></li>
+        <li><span class="tick">PASS</span><span class="label">Storage defects found<small>Tracked end to end in Jira</small></span><span class="num">40+</span></li>
+        <li><span class="tick">PASS</span><span class="label">Automation faults fixed<small>In framework infrastructure and scripts</small></span><span class="num">100+</span></li>
+      </ol>
+      <div class="report-foot">Figures from my resume · Oct 2023 to July 2026</div>
+    </aside>
+  </header>
+
+  <section id="experience">
+    <div class="sec-head"><h2>Experience</h2><p>3 years · enterprise storage</p></div>
+    <article class="job">
+      <div class="job-meta">
+        <span class="dates">Oct 2023 – July 2026</span>
+        <span>Bengaluru, India</span>
+        <span>NetApp contractor</span>
+      </div>
+      <div>
+        <h3>Software Engineer in Test</h3>
+        <p class="org">Mindteck, for NetApp</p>
+        <ul class="duties">
+          <li><b>Frameworks</b><span>Owned the Python and PyTest automation frameworks for NetApp enterprise, NPI (Vino and Gizo) and flagship storage operating systems, growing feature coverage and shaping the team's automation approach.</span></li>
+          <li><b>Stress &amp; regression</b><span>Ran stress, performance, concurrency and regression pipelines on the Katana platform, isolated infrastructure bottlenecks, and tracked defects end to end in Jira.</span></li>
+          <li><b>Root cause</b><span>Read system logs, kernel logs and core dumps to find root causes of platform, file system and firmware errors faster.</span></li>
+          <li><b>Quality</b><span>Filed and tracked 40+ storage product defects and fixed 100+ faults in automation infrastructure and scripts, which steadied the framework across release readiness cycles.</span></li>
+          <li><b>Scale</b><span>Planned and distributed 1000+ automation scripts across 4+ core NetApp environments (ZRPZ CIT and Stress zones) to support on-time release sign-offs.</span></li>
+          <li><b>Team</b><span>Mentored junior engineers on automation frameworks and used AI coding tools and script generators to speed up test work.</span></li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section id="projects">
+    <div class="sec-head"><h2>Projects</h2><p>NetApp work and personal builds</p></div>
+    <div class="projects">
+      <article class="project">
+        <span class="kicker">NetApp NPI</span>
+        <h3>Vino and Gizo platform automation</h3>
+        <p>Built and scaled test infrastructure for next-generation hardware models (AFF-A20, AFF-A30, FAS50), checking system workflows and storage stability across hardware variants and replacing manual verification.</p>
+        <ul class="tags"><li>Python</li><li>PyTest</li><li>Hardware configs</li></ul>
+      </article>
+      <article class="project">
+        <span class="kicker">Infrastructure tool refactor</span>
+        <h3>CIDER</h3>
+        <p>Refactored an internal provisioning tool to manage and validate reservations for SAN and NAS cluster arrays, backed by relational databases.</p>
+        <ul class="tags"><li>FastAPI</li><li>Python</li><li>SQL</li><li>REST APIs</li></ul>
+      </article>
+      <article class="project">
+        <span class="kicker">Regression and performance</span>
+        <h3>ZRPZ CIT, scale and stress</h3>
+        <p>Scheduled and ran 1000+ continuous integration suites in distributed cloud environments, parsing logs to separate environment faults from real code regressions under heavy load.</p>
+        <ul class="tags"><li>Regression</li><li>Log diagnostics</li><li>Performance</li></ul>
+      </article>
+    </div>
+
+    <div class="repos">
+      <h3>On GitHub</h3>
+      <ul class="repo-list">
+        <li><a href="https://github.com/shamanthgp/mini-llm-gateway" target="_blank" rel="noopener">mini-llm-gateway</a><span>A lightweight, distributed API gateway for large language models with load balancing and real-time streaming.</span><span class="lang">Python</span></li>
+        <li><a href="https://github.com/shamanthgp/Protein-price-analyzer" target="_blank" rel="noopener">Protein-price-analyzer</a><span>Scrapes Amazon for whey protein data, analyses prices and charts the market.</span><span class="lang">Python · Selenium</span></li>
+        <li><a href="https://github.com/shamanthgp/SkyBound-project" target="_blank" rel="noopener">SkyBound-project</a><span>A web page for tracking flight prices and booking tickets.</span><span class="lang">HTML</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head"><h2>Skills</h2><p>Languages, tools and testing domains</p></div>
+    <div class="skills">
+      <div>
+        <h3>Languages</h3>
+        <ul class="tags"><li>Python</li><li>JavaScript</li><li>C</li><li>Perl</li><li>SQL</li><li>Bash</li></ul>
+      </div>
+      <div>
+        <h3>Frameworks and libraries</h3>
+        <ul class="tags"><li>PyTest</li><li>Selenium</li><li>Playwright</li><li>REST Assured</li><li>FastAPI</li><li>Django</li><li>LangChain</li><li>LangGraph</li></ul>
+      </div>
+      <div>
+        <h3>Tools and infrastructure</h3>
+        <ul class="tags"><li>Git</li><li>Docker</li><li>Kubernetes</li><li>GitHub Actions</li><li>Perforce</li><li>MySQL</li><li>PostgreSQL</li><li>Jira</li><li>QTest</li><li>OpenGrok</li><li>Copilot</li></ul>
+      </div>
+      <div>
+        <h3>Testing domains</h3>
+        <ul class="tags"><li>Performance testing</li><li>Stress &amp; regression</li><li>Log analysis</li><li>Root cause analysis</li><li>Defect triage</li><li>REST API diagnostics</li><li>SAN &amp; NAS storage</li><li>Linux</li></ul>
+      </div>
+    </div>
+    <div class="edu">
+      <p><strong>B.E. in Information Science and Engineering</strong><br>Jawaharlal Nehru New College of Engineering, Shimoga</p>
+      <span class="yrs">2019 – 2023</span>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Want to talk about test automation, storage or backend work?</h2>
+    <div class="email-row">
+      <span class="email" id="email">Shamanthgp2@gmail.com</span>
+      <button class="btn" type="button" id="copy">Copy email</button>
+      <span class="copied" id="copied" role="status" aria-live="polite"></span>
+    </div>
+    <div class="links">
+      <a href="https://github.com/shamanthgp" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/shamanthgp/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://leetcode.com/u/shamanthgp" target="_blank" rel="noopener">LeetCode</a>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var btn = document.getElementById('copy');
+  var out = document.getElementById('copied');
+  var email = document.getElementById('email');
+  function selectText() {
+    var r = document.createRange(); r.selectNodeContents(email);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  btn.addEventListener('click', function () {
+    var text = email.textContent.trim();
+    var done = function () { out.textContent = 'Copied'; setTimeout(function () { out.textContent = ''; }, 2000); };
+    var fail = function () { selectText(); out.textContent = 'Selected. Press Ctrl+C to copy'; };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fail);
+      } else { fail(); }
+    } catch (e) { fail(); }
+  });
+})();
+</script>
+
+</body>
+</html>
